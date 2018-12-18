@@ -32,10 +32,15 @@ class GameScene: SKScene {
     
     var cardsSequence :[Int] = []
     
-//    
-//    private var label : SKLabelNode?
-//    private var spinnyNode : SKShapeNode?
-//    
+    var selectedCardIndex1 :Int = -1
+    var selectedCardIndex2 :Int = -1
+    var selected1Value :String = ""
+    var selected2Value :String = ""
+    
+    var gameIsPlaying :Bool = false
+    var lockInteraction :Bool = false
+    
+   
     override func didMove(to view: SKView) {
         setupScenery()
         
@@ -129,17 +134,38 @@ class GameScene: SKScene {
     }
     
     func processItemTouch(node: SKSpriteNode) {
-        if node.name == "play" {
-            print("play button pressed")
+        if gameIsPlaying == false {
+            if node.name == "play" {
+                print("play button pressed")
+                
+                hideMenu()
+                fillCardSequence()
+                createCardboard()
+                gameIsPlaying = true
+            } else if node.name == "leaderboard" {
+                print("leaderboard button pressed")
+                showMenu() // remover later, just for testing
+            } else if node.name == "rate" {
+                print("rate button pressed")
+            }
+        } else {
+            // game is playing
+            if node.name != nil {                
+                print(node.name!)
+                let num :Int? = Int.init(node.name!)
+                if num != nil {
+                    if num! > 0 {
+                        if lockInteraction == true {
+                            return
+                        } else {
+                            print("the card with number \(num!) was touched")
+                        }
+                    }
+                }
+            } else {
+                print("nil")
+            }
             
-            hideMenu()
-            fillCardSequence()
-            createCardboard()
-        } else if node.name == "leaderboard" {
-            print("leaderboard button pressed")
-            showMenu() // remover later, just for testing
-        } else if node.name == "rate" {
-            print("rate button pressed")
         }
     }
     
