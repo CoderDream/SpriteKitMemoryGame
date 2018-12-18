@@ -40,12 +40,19 @@ class GameScene: SKScene {
     var gameIsPlaying :Bool = false
     var lockInteraction :Bool = false
     
+    var scoreboard :SKSpriteNode!
+    var tryCountCurrent :Int = 0
+    var tryCountBest :Int!
+    
+    var tryCountCurrentLabel :SKLabelNode!
+    var tryCountBestLabel :SKLabelNode!
    
     override func didMove(to view: SKView) {
         setupScenery()
         
         createMenu()
 
+        createScoreboard()
     }
     
     
@@ -142,6 +149,7 @@ class GameScene: SKScene {
                 fillCardSequence()
                 createCardboard()
                 gameIsPlaying = true
+                showScoreboard()
             } else if node.name == "leaderboard" {
                 print("leaderboard button pressed")
                 showMenu() // remover later, just for testing
@@ -188,6 +196,7 @@ class GameScene: SKScene {
                                             } else {
                                                 print("no match")
                                                 Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(resetSelectedCards), userInfo: nil, repeats: false)
+                                                // need to increase the attempt count
                                             }
                                         }
                                     }
@@ -311,5 +320,42 @@ class GameScene: SKScene {
     
     func setStatusCardFound(cardIndex :Int) {
         carsStatus[cardIndex] = true
+    }
+    
+    func createScoreboard() {
+        scoreboard = SKSpriteNode(imageNamed: scoreboardImage)
+        scoreboard.position = CGPoint(x: size.width / 2, y: size.height - 50 - scoreboard.size.height / 2)
+        scoreboard.zPosition = 1
+        scoreboard.name = "scoreboard"
+        addChild(scoreboard)
+        
+        tryCountCurrentLabel = SKLabelNode(fontNamed: fontName)
+        tryCountCurrentLabel?.text = "Attemp: \(tryCountCurrent)"
+        tryCountCurrentLabel?.fontSize = 30
+        tryCountCurrentLabel?.fontColor = SKColor.white
+        tryCountCurrentLabel?.zPosition = 11
+        tryCountCurrentLabel?.position = CGPoint(x: scoreboard.position.x, y: scoreboard.position.y + 10)
+        addChild(tryCountCurrentLabel)
+        
+        
+        tryCountBestLabel = SKLabelNode(fontNamed: fontName)
+        tryCountBestLabel?.text = "Best: \(tryCountBest)"
+        tryCountBestLabel?.fontSize = 30
+        tryCountBestLabel?.fontColor = SKColor.white
+        tryCountBestLabel?.zPosition = 11
+        tryCountBestLabel?.position = CGPoint(x: tryCountCurrentLabel.position.x, y: tryCountCurrentLabel.position.y - 10 - tryCountCurrentLabel.fontSize)
+        addChild(tryCountBestLabel)
+    }
+    
+    func hideScoreboard() {
+        scoreboard.isHidden = true
+        tryCountBestLabel.isHidden = true
+        tryCountCurrentLabel.isHidden = true
+    }
+    
+    func showScoreboard() {
+        scoreboard.isHidden = false
+        tryCountBestLabel.isHidden = false
+        tryCountCurrentLabel.isHidden = false
     }
 }

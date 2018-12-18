@@ -17,3 +17,5 @@ let titleImage = "title"
 let scoreboardImage = "scoreboard"
 let finishedFlagImage = "finished"
 let buttonRestartImage = "b_restart"
+
+let fontName = "ChalkboardSE-Regular" // find fonts at iosfonts.com
