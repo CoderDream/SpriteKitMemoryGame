@@ -95,12 +95,29 @@ class GameScene: SKScene {
         addChild(title)
     }
     
+    func hideMenu() {
+        let duration: TimeInterval = 0.5
+        buttonPlay.run(SKAction.fadeAlpha(to: 0, duration: duration))
+        buttonLeaderboard.run(SKAction.fadeAlpha(to: 0, duration: duration))
+        buttonRate.run(SKAction.fadeAlpha(to: 0, duration: duration))
+        title.run(SKAction.fadeAlpha(to: 0, duration: duration))
+    }
+    
+    func showMenu() {
+        let duration: TimeInterval = 0.5
+        buttonPlay.run(SKAction.fadeAlpha(to: 1, duration: duration))
+        buttonLeaderboard.run(SKAction.fadeAlpha(to: 1, duration: duration))
+        buttonRate.run(SKAction.fadeAlpha(to: 1, duration: duration))
+        title.run(SKAction.fadeAlpha(to: 1, duration: duration))
+    }
+    
     func processItemTouch(node: SKSpriteNode) {
-        // TODO
         if node.name == "play" {
             print("play button pressed")
+            hideMenu()
         } else if node.name == "leaderboard" {
             print("leaderboard button pressed")
+            showMenu() // remover later, just for testing
         } else if node.name == "rate" {
             print("rate button pressed")
         }
