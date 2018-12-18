@@ -15,7 +15,7 @@ class GameScene: SKScene {
 //    private var spinnyNode : SKShapeNode?
 //    
     override func didMove(to view: SKView) {
-        
+        setupScenery()
 
     }
     
@@ -39,5 +39,14 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+    }
+    
+    func setupScenery() {
+        let background = SKSpriteNode(imageNamed: BackgroundImage)
+        background.anchorPoint = CGPoint(x: 0, y: 1)
+        background.position = CGPoint(x: 0, y: size.height)
+        background.zPosition = 0
+        background.size = CGSize(width: self.view!.bounds.size.width, height: self.view!.bounds.size.height)
+        addChild(background)
     }
 }
