@@ -15,6 +15,23 @@ class GameScene: SKScene {
     var buttonLeaderboard: SKSpriteNode!
     var buttonRate: SKSpriteNode!
     var title: SKSpriteNode!
+    
+    
+    let cardsPerRow :Int = 4        // display 1 more since index starts at 0 and is included
+    let cardsPerColumn :Int = 5     // display 1 more since index starts at 0 and is included
+    let cardSizeX :CGFloat = 50
+    let cardSizeY :CGFloat = 50
+    
+    let scorePanelAndAdvertiseingHeight :CGFloat = 150
+    
+    var cards :[SKSpriteNode] = []
+    var cardsBacks :[SKSpriteNode] = []
+    var carsStatus :[Bool] = []
+    
+    let numberOfTypesCards :Int = 26
+    
+    var cardSequence :[Int] = []
+    
 //    
 //    private var label : SKLabelNode?
 //    private var spinnyNode : SKShapeNode?
