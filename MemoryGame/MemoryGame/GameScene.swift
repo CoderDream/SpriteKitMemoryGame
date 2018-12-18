@@ -34,8 +34,8 @@ class GameScene: SKScene {
     
     var selectedCardIndex1 :Int = -1
     var selectedCardIndex2 :Int = -1
-    var selected1Value :String = ""
-    var selected2Value :String = ""
+    var selectedCard1Value :String = ""
+    var selectedCard2Value :String = ""
     
     var gameIsPlaying :Bool = false
     var lockInteraction :Bool = false
@@ -150,7 +150,7 @@ class GameScene: SKScene {
             }
         } else {
             // game is playing
-            if node.name != nil {                
+            if node.name != nil {
                 print(node.name!)
                 let num :Int? = Int.init(node.name!)
                 if num != nil {
@@ -159,6 +159,42 @@ class GameScene: SKScene {
                             return
                         } else {
                             print("the card with number \(num!) was touched")
+                            var i :Int = 0
+                            for cardBack in cardsBacks {
+                                if cardBack == node {
+                                    // the node is identical to the cardback at index i
+                                    let cardNode :SKSpriteNode = cards[i] as SKSpriteNode
+                                    if selectedCardIndex1 == -1 {
+                                        selectedCardIndex1 = i
+                                        selectedCard1Value = cardNode.name!
+                                        cardBack.run(SKAction.hide())
+                                        // TODO: add sound effect
+                                    } else if selectedCardIndex2 == -1 {
+                                        if i != selectedCardIndex1 {
+                                            lockInteraction = true
+                                            selectedCardIndex2 = i
+                                            selectedCard2Value = cardNode.name!
+                                            cardBack.run(SKAction.hide())
+                                            
+                                            // at this point we want to compare the 2 cards for a match
+                                            if selectedCard1Value == selectedCard2Value {
+                                                print("we have a match")
+                                                Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(hideSelectedCards), userInfo: nil, repeats: false)
+                                                
+                                                setStatusCardFound(cardIndex: selectedCardIndex1)
+                                                setStatusCardFound(cardIndex: selectedCardIndex2)
+                                                // TODO: play a sound "match sound"
+                                                // TODO: we nned to find out if all the cards from the board have been matched all
+                                            } else {
+                                                print("no match")
+                                                Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(resetSelectedCards), userInfo: nil, repeats: false)
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                i += 1
+                            }
                         }
                     }
                 }
@@ -246,5 +282,34 @@ class GameScene: SKScene {
         let newSequence = shuffleArray(array: &cardsSequence)
         cardsSequence.removeAll(keepingCapacity: false)
         cardsSequence += newSequence
+    }
+    
+    @objc func hideSelectedCards() {
+        let card1 :SKSpriteNode = cards[selectedCardIndex1] as SKSpriteNode
+        let card2 :SKSpriteNode = cards[selectedCardIndex2] as SKSpriteNode
+        
+        card1.run(SKAction.hide())
+        card2.run(SKAction.hide())
+        
+        selectedCardIndex1 = -1
+        selectedCardIndex2 = -1
+        lockInteraction = false
+    }
+    
+    
+    @objc func resetSelectedCards() {
+        let card1 :SKSpriteNode = cardsBacks[selectedCardIndex1] as SKSpriteNode
+        let card2 :SKSpriteNode = cardsBacks[selectedCardIndex2] as SKSpriteNode
+        
+        card1.run(SKAction.unhide())
+        card2.run(SKAction.unhide())
+        
+        selectedCardIndex1 = -1
+        selectedCardIndex2 = -1
+        lockInteraction = false
+    }
+    
+    func setStatusCardFound(cardIndex :Int) {
+        carsStatus[cardIndex] = true
     }
 }
