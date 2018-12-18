@@ -30,7 +30,7 @@ class GameScene: SKScene {
     
     let numberOfTypesCards :Int = 26
     
-    var cardSequence :[Int] = []
+    var cardsSequence :[Int] = []
     
 //    
 //    private var label : SKLabelNode?
@@ -137,6 +137,43 @@ class GameScene: SKScene {
             showMenu() // remover later, just for testing
         } else if node.name == "rate" {
             print("rate button pressed")
+        }
+    }
+    
+    func createCardboard() {
+        let totalEmptyScapeX :CGFloat = self.size.width - (CGFloat(cardsPerRow + 1)) * cardSizeX
+        let offsetX :CGFloat = totalEmptyScapeX / (CGFloat(cardsPerRow) + 2)
+        
+        let totalEmptySpaceY :CGFloat = self.size.height - scorePanelAndAdvertiseingHeight - (CGFloat(cardsPerColumn + 1)) * cardSizeY
+        let offsetY :CGFloat = totalEmptySpaceY / (CGFloat(cardsPerColumn) + 2)
+        
+        var idx :Int = 0
+        for i in 0 ... cardsPerRow {
+            for j in 0 ... cardsPerColumn {
+                idx += 1
+                let cardIndex :Int = cardsSequence[idx] // TODO: need to fill the cardsSequence array!
+                let cardName :String = String(format: "card-%i", cardIndex)
+                let card :SKSpriteNode = SKSpriteNode(imageNamed: cardName)
+                card.size = CGSize(width: cardSizeX, height: cardSizeY)
+                card.anchorPoint = CGPoint(x: 0, y: 0)
+                
+                let posX :CGFloat = offsetX + CGFloat(i) * card.size.width + offsetX * CGFloat(i)
+                let posY :CGFloat = offsetY + CGFloat(j) * card.size.height + offsetY * CGFloat(j)
+                card.position = CGPoint(x: posX, y: posY)
+                card.zPosition = 9
+                card.name = String(format: "%i", cardIndex)
+                addChild(card)
+                cards.append(card)
+                
+                let cardBack :SKSpriteNode = SKSpriteNode(imageNamed: "card-back")
+                cardBack.size = CGSize(width: cardSizeX, height: cardSizeY)
+                cardBack.anchorPoint = CGPoint(x: posX, y: posY)
+                cardBack.zPosition = 10
+                cardBack.position = CGPoint(x: posX, y: posY)
+                cardBack.name = String(format: "%i", cardIndex)
+                addChild(cardBack)
+                cardsBacks.append(cardBack)
+            }
         }
     }
 }
