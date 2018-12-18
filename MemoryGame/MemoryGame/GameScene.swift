@@ -131,7 +131,10 @@ class GameScene: SKScene {
     func processItemTouch(node: SKSpriteNode) {
         if node.name == "play" {
             print("play button pressed")
+            
             hideMenu()
+            fillCardSequence()
+            createCardboard()
         } else if node.name == "leaderboard" {
             print("leaderboard button pressed")
             showMenu() // remover later, just for testing
@@ -150,8 +153,8 @@ class GameScene: SKScene {
         var idx :Int = 0
         for i in 0 ... cardsPerRow {
             for j in 0 ... cardsPerColumn {
-                idx += 1
                 let cardIndex :Int = cardsSequence[idx] // TODO: need to fill the cardsSequence array!
+                idx += 1
                 let cardName :String = String(format: "card-%i", cardIndex)
                 let card :SKSpriteNode = SKSpriteNode(imageNamed: cardName)
                 card.size = CGSize(width: cardSizeX, height: cardSizeY)
@@ -167,7 +170,7 @@ class GameScene: SKScene {
                 
                 let cardBack :SKSpriteNode = SKSpriteNode(imageNamed: "card-back")
                 cardBack.size = CGSize(width: cardSizeX, height: cardSizeY)
-                cardBack.anchorPoint = CGPoint(x: posX, y: posY)
+                cardBack.anchorPoint = CGPoint(x: 0, y: 0)
                 cardBack.zPosition = 10
                 cardBack.position = CGPoint(x: posX, y: posY)
                 cardBack.name = String(format: "%i", cardIndex)
@@ -175,5 +178,47 @@ class GameScene: SKScene {
                 cardsBacks.append(cardBack)
             }
         }
+    }
+    
+//    func shuffle<C :MutableCollectionType where C.Index == Int>(var list: C) ->C {
+//        let count
+//    }
+    
+//    func shuffle<C: MutableCollectionType where C.Index == Int>(var list: C) -> C {
+//        let total = list.count
+//        for i in 0..<(total - 1) {
+//            let j = Int(arc4random_uniform(UInt32(total - i))) + i
+//            swap(&list[i], &list[j])
+//        }
+//        return list
+//    }
+    
+    func shuffleArray<T>( array: inout Array<T>) -> Array<T> {
+        var index = array.count - 1
+        while index > 0 {
+            //for var index = array.count - 1; index > 0; index -= 1 {
+            // Random int from 0 to index-1
+            let j = Int(arc4random_uniform(UInt32(index-1)))
+            
+            // Swap two array elements
+            // Notice '&' required as swap uses 'inout' parameters
+            array.swapAt(index, j)
+            //swap(&array[index], &array[j])
+           
+            index -= 1
+        }
+        return array
+    }
+    
+    func fillCardSequence() {
+        let totalCards :Int = (cardsPerRow + 1) * (cardsPerColumn + 1) / 2
+        for i in 1 ... totalCards {
+            cardsSequence.append(i)
+            cardsSequence.append(i)
+        }
+        //let newSequence =
+        let newSequence = shuffleArray(array: &cardsSequence)
+        cardsSequence.removeAll(keepingCapacity: false)
+        cardsSequence += newSequence
     }
 }
