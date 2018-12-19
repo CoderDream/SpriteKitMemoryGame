@@ -67,6 +67,8 @@ class GameScene: SKScene, GKGameCenterControllerDelegate, ADBannerViewDelegate {
     
     var adBannerView : ADBannerView!
     
+    var APP_ID : String = "970576421"
+    
     override func didMove(to view: SKView) {
         setupScenery()
         
