@@ -54,6 +54,11 @@ class GameScene: SKScene {
    
     var buttonReset : SKSpriteNode!
     
+    var soundActionButton : SKAction!
+    var soundActionMatch : SKAction!
+    var soundActionNoMatch : SKAction!
+    var soundActionWin : SKAction!
+    
     override func didMove(to view: SKView) {
         setupScenery()
         
@@ -64,6 +69,8 @@ class GameScene: SKScene {
         
         createFinishedFlag()
         hideFinishedFlag()
+        
+        setupAudio()
         
         if DEBUG_MODE_ON == true {
             DelayPriorToHidingCards = 0.15
@@ -165,20 +172,28 @@ class GameScene: SKScene {
                 resetCardsStatus()
                 createCardboard()
                 gameIsPlaying = true
-                // 修复游戏结束再次进入时未显示记分牌的缺陷                
+                // 修复游戏结束再次进入时未显示记分牌的缺陷
                 placeScoreboardAboveCards()
                 showScoreboard()
                 hideFinishedFlag()
+                // 增加音效按钮
+                run(soundActionButton)
             } else if node.name == "leaderboard" {
                 print("leaderboard button pressed")
                 showMenu() // remover later, just for testing
+                // 增加音效按钮
+                run(soundActionButton)
             } else if node.name == "rate" {
                 print("rate button pressed")
+                // 增加音效按钮
+                run(soundActionButton)
             }
         } else {
             // game is playing
             if node.name == "reset" {
                 resetGame()
+                // 增加音效按钮
+                run(soundActionButton)
             }
             if node.name != nil { // it is a number
                 print(node.name!)
@@ -192,6 +207,8 @@ class GameScene: SKScene {
                             var i :Int = 0
                             for cardBack in cardsBacks {
                                 if cardBack == node {
+                                    // 增加音效按钮
+                                    run(soundActionButton)
                                     // the node is identical to the cardback at index i
                                     let cardNode :SKSpriteNode = cards[i] as SKSpriteNode
                                     if selectedCardIndex1 == -1 {
@@ -486,7 +503,8 @@ class GameScene: SKScene {
     }
     
     func resetGame() {
-        // TODO: we want to play a reset button sound effect
+        // 增加音效按钮
+        run(soundActionButton)
         removeAllCards()
         placeScoreboardAboveCards()
         showScoreboard()
@@ -514,6 +532,13 @@ class GameScene: SKScene {
         selectedCard2Value = ""
         selectedCardIndex1 = -1
         selectedCardIndex2 = -1
+    }
+    
+    func setupAudio() {
+        soundActionButton = SKAction.playSoundFileNamed(soundButtonFile, waitForCompletion: false)
+        soundActionMatch = SKAction.playSoundFileNamed(soundMatchFile, waitForCompletion: false)
+        soundActionNoMatch = SKAction.playSoundFileNamed(soundNoMatchFile, waitForCompletion: false)
+        soundActionWin = SKAction.playSoundFileNamed(soundWinFile, waitForCompletion: false)
     }
 }
 

@@ -19,3 +19,8 @@ let finishedFlagImage = "finished"
 let buttonRestartImage = "b_restart"
 
 let fontName = "ChalkboardSE-Regular" // find fonts at iosfonts.com
+
+let soundButtonFile = "button.wav"
+let soundMatchFile = "match.mp3"
+let soundNoMatchFile = "no-match.wav"
+let soundWinFile = "win.mp3"
