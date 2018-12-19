@@ -77,6 +77,7 @@
 		3FBFEAC521C87812009D3C50 /* MemoryGame */ = {
 			isa = PBXGroup;
 			children = (
+				3FEF0CD821CA872900CC24E4 /* appirater */,
 				3FBFEADE21C87C23009D3C50 /* sounds */,
 				3FBFEAC621C87812009D3C50 /* AppDelegate.swift */,
 				3FBFEAC821C87812009D3C50 /* GameScene.sks */,
@@ -110,6 +111,14 @@
 				3FEF0C5921CA61AE00CC24E4 /* GameKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3FEF0CD821CA872900CC24E4 /* appirater */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = appirater;
+			path = ../../../../Downloads/appirater;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
