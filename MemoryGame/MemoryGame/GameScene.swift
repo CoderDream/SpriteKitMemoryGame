@@ -49,6 +49,8 @@ class GameScene: SKScene {
     
     var DEBUG_MODE_ON : Bool = true
     var DelayPriorToHidingCards : TimeInterval = 1.5
+    
+    var finishedFlag :SKSpriteNode!
    
     override func didMove(to view: SKView) {
         setupScenery()
@@ -57,6 +59,9 @@ class GameScene: SKScene {
 
         createScoreboard()
         hideScoreboard()
+        
+        createFinishedFlag()        
+        hideFinishedFlag()
         
         if DEBUG_MODE_ON == true {
             DelayPriorToHidingCards = 0.15
@@ -159,6 +164,7 @@ class GameScene: SKScene {
                 createCardboard()
                 gameIsPlaying = true
                 showScoreboard()
+                hideFinishedFlag()
             } else if node.name == "leaderboard" {
                 print("leaderboard button pressed")
                 showMenu() // remover later, just for testing
@@ -208,6 +214,10 @@ class GameScene: SKScene {
                                                     // Show a finished flag
                                                     // play a winning sound
                                                     // save the best score
+                                                    placeScoreboardBelowPlayButton()
+                                                    saveBestTryCount()
+                                                    showFinishedFlag()
+                                                   // createFinishedFlag()
                                                 }
                                                 
                                                 
@@ -402,4 +412,53 @@ class GameScene: SKScene {
         
         return gameOver
     }
+    
+    func placeScoreboardBelowPlayButton() {
+        scoreboard.position = CGPoint(x: size.width / 2, y: buttonPlay.position.y - scoreboard.size.height)
+        
+        tryCountCurrentLabel?.position = CGPoint(x: scoreboard.position.x, y: scoreboard.position.y + 10)
+        tryCountBestLabel?.position = CGPoint(x: tryCountCurrentLabel.position.x, y: tryCountCurrentLabel.position.y - 10 - tryCountBestLabel.fontSize)
+        tryCountBestLabel.isHidden = false
+    }
+    
+    func placeScoreboardAboveCards() {
+        scoreboard.position = CGPoint(x: size.width / 2, y: size.height - 50 - scoreboard.size.height / 2)
+        
+        tryCountCurrentLabel?.position = CGPoint(x: scoreboard.position.x, y: scoreboard.position.y + 10)
+        tryCountBestLabel?.position = CGPoint(x: tryCountCurrentLabel.position.x, y: tryCountCurrentLabel.position.y - 10 - tryCountBestLabel.fontSize)
+    }
+    
+    func saveBestTryCount() {
+        if tryCountBest == nil || tryCountBest == 0 || tryCountCurrent < tryCountBest {
+            tryCountBest = tryCountCurrent
+            UserDefaults.standard.set(tryCountBest, forKey: "besttrycount")
+            UserDefaults.standard.synchronize()
+            tryCountBestLabel?.text = "Best: \(tryCountBest)"
+            // TODO: submit score to game center leaderboard
+        }
+    }
+    
+    func createFinishedFlag() {
+        finishedFlag = SKSpriteNode(imageNamed: finishedFlagImage)
+        finishedFlag.size = CGSize(width: cardSizeX, height: cardSizeY)
+        finishedFlag.anchorPoint = CGPoint(x: 0, y: 0)
+        finishedFlag.position = CGPoint(x: size.width / 2, y: scoreboard.position.y - scoreboard.size.height / 2 - finishedFlag.size.height / 2)
+        finishedFlag.zPosition = 11
+        finishedFlag.name = "finishedFlag"
+        addChild(finishedFlag)
+        finishedFlag.isHidden = true
+    }
+    
+    func showFinishedFlag() {
+        finishedFlag.position = CGPoint(x: size.width / 2, y: scoreboard.position.y - scoreboard.size.height / 2 - finishedFlag.size.height / 2)
+        finishedFlag.isHidden = false
+    }
+    
+    func hideFinishedFlag() {
+        finishedFlag.isHidden = true
+        
+    }
+    
+    // TODO: we need to create a reset button so that the user can replay the game without having to complete it all.
 }
+
