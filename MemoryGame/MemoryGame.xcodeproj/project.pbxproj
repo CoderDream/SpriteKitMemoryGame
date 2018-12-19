@@ -20,6 +20,7 @@
 		3FBFEAE421C87C23009D3C50 /* match.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3FBFEAE021C87C23009D3C50 /* match.mp3 */; };
 		3FBFEAE521C87C23009D3C50 /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3FBFEAE121C87C23009D3C50 /* win.mp3 */; };
 		3FBFEAE621C87C23009D3C50 /* button.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3FBFEAE221C87C23009D3C50 /* button.wav */; };
+		3FEF0C5A21CA61AE00CC24E4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEF0C5921CA61AE00CC24E4 /* GameKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		3FBFEAE021C87C23009D3C50 /* match.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = match.mp3; sourceTree = "<group>"; };
 		3FBFEAE121C87C23009D3C50 /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
 		3FBFEAE221C87C23009D3C50 /* button.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = button.wav; sourceTree = "<group>"; };
+		3FEF0C5921CA61AE00CC24E4 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FEF0C5A21CA61AE00CC24E4 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +59,7 @@
 			children = (
 				3FBFEAC521C87812009D3C50 /* MemoryGame */,
 				3FBFEAC421C87812009D3C50 /* Products */,
+				3FEF0C5821CA61AE00CC24E4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +98,14 @@
 				3FBFEAE221C87C23009D3C50 /* button.wav */,
 			);
 			path = sounds;
+			sourceTree = "<group>";
+		};
+		3FEF0C5821CA61AE00CC24E4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3FEF0C5921CA61AE00CC24E4 /* GameKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

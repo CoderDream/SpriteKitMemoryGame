@@ -8,8 +8,9 @@
 
 import SpriteKit
 import GameplayKit
+import GameKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, GKGameCenterControllerDelegate {
     
     var buttonPlay: SKSpriteNode!
     var buttonLeaderboard: SKSpriteNode!
@@ -59,6 +60,10 @@ class GameScene: SKScene {
     var soundActionNoMatch : SKAction!
     var soundActionWin : SKAction!
     
+    var gcEnabled = Bool()
+    var gcDefaultLeaderboard = String()
+    var leaderboardID = "com.coderdream"
+    
     override func didMove(to view: SKView) {
         setupScenery()
         
@@ -71,6 +76,8 @@ class GameScene: SKScene {
         hideFinishedFlag()
         
         setupAudio()
+        
+        authenticateLocalPlayer()
         
         if DEBUG_MODE_ON == true {
             DelayPriorToHidingCards = 0.15
@@ -180,9 +187,10 @@ class GameScene: SKScene {
                 run(soundActionButton)
             } else if node.name == "leaderboard" {
                 print("leaderboard button pressed")
-                showMenu() // remover later, just for testing
+                // showMenu() // remover later, just for testing
                 // 增加音效按钮
                 run(soundActionButton)
+                showLeaderboard()
             } else if node.name == "rate" {
                 print("rate button pressed")
                 // 增加音效按钮
@@ -410,7 +418,7 @@ class GameScene: SKScene {
         tryCountBest = UserDefaults.standard.integer(forKey: "besttrycount") as Int
         
         tryCountBestLabel = SKLabelNode(fontNamed: fontName)
-        tryCountBestLabel?.text = "Best: \(tryCountBest)"
+        tryCountBestLabel?.text = "Best: \(tryCountBest!)"
         tryCountBestLabel?.fontSize = 30
         tryCountBestLabel?.fontColor = SKColor.white
         tryCountBestLabel?.zPosition = 11
@@ -476,8 +484,9 @@ class GameScene: SKScene {
             tryCountBest = tryCountCurrent
             UserDefaults.standard.set(tryCountBest, forKey: "besttrycount")
             UserDefaults.standard.synchronize()
-            tryCountBestLabel?.text = "Best: \(tryCountBest)"
-            // TODO: submit score to game center leaderboard
+            tryCountBestLabel?.text = "Best: \(tryCountBest!)"
+            // submit score to game center leaderboard
+            submitScore()
         }
     }
     
@@ -545,5 +554,72 @@ class GameScene: SKScene {
         soundActionNoMatch = SKAction.playSoundFileNamed(soundNoMatchFile, waitForCompletion: false)
         soundActionWin = SKAction.playSoundFileNamed(soundWinFile, waitForCompletion: false)
     }
+    
+    // MARK: leaderboard
+    func authenticateLocalPlayer() {
+        let localPlayer : GKLocalPlayer = GKLocalPlayer()
+        localPlayer.authenticateHandler = { (viewController, error) -> Void in
+            if viewController != nil {
+                let vc = self.view?.window?.rootViewController
+                vc?.present(viewController!, animated: true, completion: nil)
+            } else if localPlayer.isAuthenticated {
+                print("player is already authenticated")
+                self.gcEnabled = true
+                
+                // Get the default leaerboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: ({(leaderboardIdentifer, error) -> Void in
+                    if error != nil {
+                        // Expression implicitly coerced from 'String?' to 'Any'
+                        print(error!.localizedDescription)
+                    } else {
+                        self.gcDefaultLeaderboard = leaderboardIdentifer!
+                    }
+                })
+                
+                )
+            }
+        }
+    }
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func showLeaderboard() {
+        let gcVC : GKGameCenterViewController = GKGameCenterViewController()
+        gcVC.gameCenterDelegate = self
+        gcVC.viewState = GKGameCenterViewControllerState.leaderboards
+        gcVC.leaderboardIdentifier = leaderboardID
+        
+        let vc = self.view?.window?.rootViewController
+        vc?.present(gcVC, animated: true, completion: nil)
+    }
+    
+    func submitScore() {
+        var sScore = GKScore(leaderboardIdentifier: leaderboardID)
+        sScore.value = Int64(tryCountBest)
+        
+        let localPlayer : GKLocalPlayer = GKLocalPlayer()
+       // GKScore.report([sScore], withCompletionHandler: { (error) -> Void in
+        GKScore.report([sScore], withCompletionHandler: { (error) -> Void in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                print("score submiteed successful")
+            }
+        })
+    }
 }
+
+/*
+ 2018-12-19 20:02:04.151146+0800 MemoryGame[2874:276109] [DYMTLInitPlatform] platform initialization successful
+ 2018-12-19 20:02:04.355170+0800 MemoryGame[2874:275874] Metal GPU Frame Capture Enabled
+ 2018-12-19 20:02:04.356059+0800 MemoryGame[2874:275874] Metal API Validation Enabled
+ 2018-12-19 20:02:05.007114+0800 MemoryGame[2874:275874] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
+ 2018-12-19 20:02:05.008750+0800 MemoryGame[2874:275874] [MC] Reading from public effective user settings.
+ 2018-12-19 20:02:08.289492+0800 MemoryGame[2874:275874] [Error] setCurrentGameFromInternal: ignoring -- nil bundleIdentifier :(null)
+ 2018-12-19 20:02:08.346193+0800 MemoryGame[2874:275874] [Error] _authenticateUsingAlert:Faied to authenticate player with existing credentials.Error: Error Domain=GKErrorDomain Code=15 "未能完成所请求的操作，因为 Game Center 未识别此应用程序。" UserInfo={GKServerStatusCode=5019, NSLocalizedDescription=未能完成所请求的操作，因为 Game Center 未识别此应用程序。, NSUnderlyingError=0x2811aaa60 {Error Domain=GKServerErrorDomain Code=5019 "status = 5019, no game matching descriptor: ios:com.coderdream:1.0:1+-1" UserInfo={GKServerStatusCode=5019, NSLocalizedFailureReason=status = 5019, no game matching descriptor: ios:com.coderdream:1.0:1+-1}}}
+ 2018-12-19 20:02:08.377838+0800 MemoryGame[2874:275874] [Error] startAuthenticationForExistingPrimaryPlayer:Failed to Authenticate player.Error: Error Domain=GKErrorDomain Code=15 "The requested operation could not be completed because this application is not recognized by Game Center." UserInfo={NSLocalizedDescription=The requested operation could not be completed because this application is not recognized by Game Center.}
+ 
+ */
 
