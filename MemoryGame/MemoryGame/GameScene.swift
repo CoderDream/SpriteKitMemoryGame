@@ -202,6 +202,7 @@ class GameScene: SKScene, GKGameCenterControllerDelegate, ADBannerViewDelegate {
                 print("rate button pressed")
                 // 增加音效按钮
                 run(soundActionButton)
+                launchRateGame()
             }
         } else {
             // game is playing
@@ -603,10 +604,10 @@ class GameScene: SKScene, GKGameCenterControllerDelegate, ADBannerViewDelegate {
     }
     
     func submitScore() {
-        var sScore = GKScore(leaderboardIdentifier: leaderboardID)
+        let sScore = GKScore(leaderboardIdentifier: leaderboardID)
         sScore.value = Int64(tryCountBest)
         
-        let localPlayer : GKLocalPlayer = GKLocalPlayer()
+        let _ : GKLocalPlayer = GKLocalPlayer()
        // GKScore.report([sScore], withCompletionHandler: { (error) -> Void in
         GKScore.report([sScore], withCompletionHandler: { (error) -> Void in
             if error != nil {
@@ -623,6 +624,12 @@ class GameScene: SKScene, GKGameCenterControllerDelegate, ADBannerViewDelegate {
         adBannerView.delegate = self
         view?.addSubview(adBannerView)
     }
+    
+    func launchRateGame() {
+        Appirater.setAppId(APP_ID)
+        Appirater.setDaysUntilPrompt(-1)
+        Appirater.rateApp()
+    }
 }
 
 /*
@@ -634,6 +641,15 @@ class GameScene: SKScene, GKGameCenterControllerDelegate, ADBannerViewDelegate {
  2018-12-19 20:02:08.289492+0800 MemoryGame[2874:275874] [Error] setCurrentGameFromInternal: ignoring -- nil bundleIdentifier :(null)
  2018-12-19 20:02:08.346193+0800 MemoryGame[2874:275874] [Error] _authenticateUsingAlert:Faied to authenticate player with existing credentials.Error: Error Domain=GKErrorDomain Code=15 "未能完成所请求的操作，因为 Game Center 未识别此应用程序。" UserInfo={GKServerStatusCode=5019, NSLocalizedDescription=未能完成所请求的操作，因为 Game Center 未识别此应用程序。, NSUnderlyingError=0x2811aaa60 {Error Domain=GKServerErrorDomain Code=5019 "status = 5019, no game matching descriptor: ios:com.coderdream:1.0:1+-1" UserInfo={GKServerStatusCode=5019, NSLocalizedFailureReason=status = 5019, no game matching descriptor: ios:com.coderdream:1.0:1+-1}}}
  2018-12-19 20:02:08.377838+0800 MemoryGame[2874:275874] [Error] startAuthenticationForExistingPrimaryPlayer:Failed to Authenticate player.Error: Error Domain=GKErrorDomain Code=15 "The requested operation could not be completed because this application is not recognized by Game Center." UserInfo={NSLocalizedDescription=The requested operation could not be completed because this application is not recognized by Game Center.}
+ 
+ 
+ Showing Recent Messages
+ :-1: Multiple commands produce '/Users/coderdream/Library/Developer/Xcode/DerivedData/MemoryGame-bdnohhywcsfjikghsiyzyupjhxeg/Build/Products/Debug-iphoneos/MemoryGame.app/Info.plist':
+ 1) Target 'MemoryGame' (project 'MemoryGame') has copy command from '/Users/coderdream/Downloads/appirater/Info.plist' to '/Users/coderdream/Library/Developer/Xcode/DerivedData/MemoryGame-bdnohhywcsfjikghsiyzyupjhxeg/Build/Products/Debug-iphoneos/MemoryGame.app/Info.plist'
+ 2) Target 'MemoryGame' (project 'MemoryGame') has process command with output '/Users/coderdream/Library/Developer/Xcode/DerivedData/MemoryGame-bdnohhywcsfjikghsiyzyupjhxeg/Build/Products/Debug-iphoneos/MemoryGame.app/Info.plist'
+ 
+ 
+
  
  */
 

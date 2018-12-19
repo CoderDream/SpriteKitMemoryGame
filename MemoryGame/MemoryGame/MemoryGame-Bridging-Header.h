@@ -9,6 +9,6 @@
 #ifndef MemoryGame_Bridging_Header_h
 #define MemoryGame_Bridging_Header_h
 
-import "Appirater.h"
+#import "Appirater.h"
 
 #endif /* MemoryGame_Bridging_Header_h */

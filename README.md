@@ -64,6 +64,7 @@ Swift 2, Spritekit, iOS 9 Program an iPhone Memory game
 ### 10 Rate the Application
 - 001 Rating the app logic - part 1 setup
 - 002 Create objectiveC to Swift bridge to use appirater to rate app
+- [Xcode10 打开旧项目报错Multiple commands produce定位到Info.plist解决方案](https://blog.csdn.net/saw471/article/details/82762741)
   
 ### 11 Icons and launch images
 - 001 Add iphone app icons
