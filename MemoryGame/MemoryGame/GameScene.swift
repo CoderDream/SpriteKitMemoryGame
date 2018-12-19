@@ -175,7 +175,10 @@ class GameScene: SKScene {
             }
         } else {
             // game is playing
-            if node.name != nil {
+            if node.name == "reset" {
+                resetGame()
+            }
+            if node.name != nil { // it is a number
                 print(node.name!)
                 let num :Int? = Int.init(node.name!)
                 if num != nil {
@@ -219,7 +222,7 @@ class GameScene: SKScene {
                                                     placeScoreboardBelowPlayButton()
                                                     saveBestTryCount()
                                                     showFinishedFlag()
-                                                   // createFinishedFlag()
+                                                    buttonReset.isHidden = true
                                                 }
                                                 
                                                 
@@ -325,6 +328,9 @@ class GameScene: SKScene {
     }
     
     @objc func hideSelectedCards() {
+        print("selectedCardIndex1 \(selectedCardIndex1)")
+        print("selectedCardIndex2 \(selectedCardIndex2)")
+        
         let card1 :SKSpriteNode = cards[selectedCardIndex1] as SKSpriteNode
         let card2 :SKSpriteNode = cards[selectedCardIndex2] as SKSpriteNode
         
@@ -476,6 +482,36 @@ class GameScene: SKScene {
         tryCountCurrent += 1
         tryCountCurrentLabel?.text = "Attemp: \(tryCountCurrent)"
     }
-    // TODO: we need to create a reset button so that the user can replay the game without having to complete it all.
+    
+    func resetGame() {
+        // TODO: we want to play a reset button sound effect
+        removeAllCards()
+        placeScoreboardAboveCards()
+        showScoreboard()
+        fillCardSequence()
+        createCardboard()
+        resetCardsStatus()
+        tryCountCurrentLabel?.text = "Attempts: \(tryCountCurrent)"
+        finishedFlag.isHidden = true
+    }
+    
+    func removeAllCards() {
+        for card in cards {
+            card.removeFromParent()
+        }
+        
+        for card in cardsBacks {
+            card.removeFromParent()
+        }
+        cards.removeAll(keepingCapacity: false)
+        cardsBacks.removeAll(keepingCapacity: false)
+        cardsStatus.removeAll(keepingCapacity: false)
+        cardsSequence.removeAll(keepingCapacity: false)
+        
+        selectedCard1Value = ""
+        selectedCard2Value = ""
+        selectedCardIndex1 = -1
+        selectedCardIndex2 = -1
+    }
 }
 
