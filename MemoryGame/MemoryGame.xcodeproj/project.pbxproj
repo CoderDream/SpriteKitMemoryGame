@@ -29,6 +29,9 @@
 		3FEF0D0F21CA878100CC24E4 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 3FEF0CE521CA878000CC24E4 /* CHANGELOG.md */; };
 		3FEF0D1021CA878100CC24E4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3FEF0CF321CA878000CC24E4 /* Info.plist */; };
 		3FEF0D1121CA878100CC24E4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3FEF0CFD21CA878000CC24E4 /* README.md */; };
+		3FEF0D1321CA87AF00CC24E4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEF0D1221CA87AF00CC24E4 /* SystemConfiguration.framework */; };
+		3FEF0D1521CA87B900CC24E4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEF0D1421CA87B900CC24E4 /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3FEF0D1721CA87C600CC24E4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEF0D1621CA87C600CC24E4 /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +105,9 @@
 		3FEF0D0521CA878000CC24E4 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
 		3FEF0D0621CA878000CC24E4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppiraterLocalizable.strings"; sourceTree = "<group>"; };
 		3FEF0D0721CA878000CC24E4 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AppiraterLocalizable.strings"; sourceTree = "<group>"; };
+		3FEF0D1221CA87AF00CC24E4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3FEF0D1421CA87B900CC24E4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3FEF0D1621CA87C600CC24E4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FEF0D1721CA87C600CC24E4 /* CFNetwork.framework in Frameworks */,
+				3FEF0D1521CA87B900CC24E4 /* StoreKit.framework in Frameworks */,
+				3FEF0D1321CA87AF00CC24E4 /* SystemConfiguration.framework in Frameworks */,
 				3FEF0C9E21CA7C8F00CC24E4 /* iAd.framework in Frameworks */,
 				3FEF0C5A21CA61AE00CC24E4 /* GameKit.framework in Frameworks */,
 			);
@@ -167,6 +176,9 @@
 		3FEF0C5821CA61AE00CC24E4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FEF0D1621CA87C600CC24E4 /* CFNetwork.framework */,
+				3FEF0D1421CA87B900CC24E4 /* StoreKit.framework */,
+				3FEF0D1221CA87AF00CC24E4 /* SystemConfiguration.framework */,
 				3FEF0C9D21CA7C8F00CC24E4 /* iAd.framework */,
 				3FEF0C5921CA61AE00CC24E4 /* GameKit.framework */,
 			);
