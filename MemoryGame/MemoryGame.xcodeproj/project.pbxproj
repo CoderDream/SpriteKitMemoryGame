@@ -108,6 +108,7 @@
 		3FEF0D1221CA87AF00CC24E4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3FEF0D1421CA87B900CC24E4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3FEF0D1621CA87C600CC24E4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		3FEF0D1821CA937100CC24E4 /* MemoryGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MemoryGame-Bridging-Header.h"; path = "MemoryGame/MemoryGame-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +130,7 @@
 		3FBFEABA21C87812009D3C50 = {
 			isa = PBXGroup;
 			children = (
+				3FEF0D1821CA937100CC24E4 /* MemoryGame-Bridging-Header.h */,
 				3FBFEAC521C87812009D3C50 /* MemoryGame */,
 				3FBFEAC421C87812009D3C50 /* Products */,
 				3FEF0C5821CA61AE00CC24E4 /* Frameworks */,
