@@ -52,6 +52,8 @@ class GameScene: SKScene {
     
     var finishedFlag :SKSpriteNode!
    
+    var buttonReset : SKSpriteNode!
+    
     override func didMove(to view: SKView) {
         setupScenery()
         
@@ -60,7 +62,7 @@ class GameScene: SKScene {
         createScoreboard()
         hideScoreboard()
         
-        createFinishedFlag()        
+        createFinishedFlag()
         hideFinishedFlag()
         
         if DEBUG_MODE_ON == true {
@@ -207,7 +209,7 @@ class GameScene: SKScene {
                                                 setStatusCardFound(cardIndex: selectedCardIndex1)
                                                 setStatusCardFound(cardIndex: selectedCardIndex2)
                                                 // TODO: play a sound "match sound"
-                                                // TODO: we nned to find out if all the cards from the board have been matched all
+                                                // TODO: we need to find out if all the cards from the board have been matched all
                                                 if checkIfGameOver() == true {
                                                     gameIsPlaying = false
                                                     showMenu()
@@ -224,7 +226,8 @@ class GameScene: SKScene {
                                             } else {
                                                 print("no match")
                                                 Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(resetSelectedCards), userInfo: nil, repeats: false)
-                                                // need to increase the attempt count
+                                                // TODO: need to increase the attempt count
+                                                increaseTryCount()
                                             }
                                         }
                                     }
@@ -383,18 +386,28 @@ class GameScene: SKScene {
         tryCountBestLabel?.zPosition = 11
         tryCountBestLabel?.position = CGPoint(x: tryCountCurrentLabel.position.x, y: tryCountCurrentLabel.position.y - 10 - tryCountCurrentLabel.fontSize)
         addChild(tryCountBestLabel)
+        
+        buttonReset = SKSpriteNode(imageNamed: buttonRestartImage)
+        buttonReset.position = CGPoint(x: scoreboard.position.x + scoreboard.size.width / 2 - buttonReset.size.width, y: scoreboard.position.y - buttonReset.size.height / 3)
+        buttonReset.name = "reset"
+        buttonReset.zPosition = 11
+        buttonReset.setScale(0.5)
+        addChild(buttonReset)
+        buttonReset.isHidden = true
     }
     
     func hideScoreboard() {
         scoreboard.isHidden = true
         tryCountBestLabel.isHidden = true
         tryCountCurrentLabel.isHidden = true
+        buttonReset.isHidden = true
     }
     
     func showScoreboard() {
         scoreboard.isHidden = false
         tryCountBestLabel.isHidden = false
         tryCountCurrentLabel.isHidden = false
+        buttonReset.isHidden = false
         
         if tryCountBest == nil || tryCountBest == 0 {
             tryCountBestLabel.isHidden = true
@@ -459,6 +472,10 @@ class GameScene: SKScene {
         
     }
     
+    func increaseTryCount() {
+        tryCountCurrent += 1
+        tryCountCurrentLabel?.text = "Attemp: \(tryCountCurrent)"
+    }
     // TODO: we need to create a reset button so that the user can replay the game without having to complete it all.
 }
 
