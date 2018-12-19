@@ -9,8 +9,9 @@
 import SpriteKit
 import GameplayKit
 import GameKit
+import iAd
 
-class GameScene: SKScene, GKGameCenterControllerDelegate {
+class GameScene: SKScene, GKGameCenterControllerDelegate, ADBannerViewDelegate {
     
     var buttonPlay: SKSpriteNode!
     var buttonLeaderboard: SKSpriteNode!
@@ -64,6 +65,8 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     var gcDefaultLeaderboard = String()
     var leaderboardID = "com.coderdream"
     
+    var adBannerView : ADBannerView!
+    
     override func didMove(to view: SKView) {
         setupScenery()
         
@@ -77,7 +80,9 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         
         setupAudio()
         
-        authenticateLocalPlayer()
+        authenticateLocalPlayer()        
+        
+        loadAds()
         
         if DEBUG_MODE_ON == true {
             DelayPriorToHidingCards = 0.15
@@ -608,6 +613,13 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
                 print("score submiteed successful")
             }
         })
+    }
+    
+    func loadAds() {
+        adBannerView = ADBannerView(frame: CGRect.zero)
+        adBannerView.center = CGPoint(x:adBannerView.center.x, y:adBannerView.frame.size.height / 2)
+        adBannerView.delegate = self
+        view?.addSubview(adBannerView)
     }
 }
 
