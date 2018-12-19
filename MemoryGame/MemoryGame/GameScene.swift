@@ -26,7 +26,7 @@ class GameScene: SKScene {
     
     var cards :[SKSpriteNode] = []
     var cardsBacks :[SKSpriteNode] = []
-    var carsStatus :[Bool] = []
+    var cardsStatus :[Bool] = []
     
     let numberOfTypesCards :Int = 26
     
@@ -53,6 +53,7 @@ class GameScene: SKScene {
         createMenu()
 
         createScoreboard()
+        hideScoreboard()
     }
     
     
@@ -193,6 +194,15 @@ class GameScene: SKScene {
                                                 setStatusCardFound(cardIndex: selectedCardIndex2)
                                                 // TODO: play a sound "match sound"
                                                 // TODO: we nned to find out if all the cards from the board have been matched all
+                                                if checkIfGameOver() == true {
+                                                    gameIsPlaying = false
+                                                    showMenu()
+                                                    // Show a finished flag
+                                                    // play a winning sound
+                                                    // save the best score
+                                                }
+                                                
+                                                
                                             } else {
                                                 print("no match")
                                                 Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(resetSelectedCards), userInfo: nil, repeats: false)
@@ -319,7 +329,7 @@ class GameScene: SKScene {
     }
     
     func setStatusCardFound(cardIndex :Int) {
-        carsStatus[cardIndex] = true
+        cardsStatus[cardIndex] = true
     }
     
     func createScoreboard() {
@@ -337,6 +347,9 @@ class GameScene: SKScene {
         tryCountCurrentLabel?.position = CGPoint(x: scoreboard.position.x, y: scoreboard.position.y + 10)
         addChild(tryCountCurrentLabel)
         
+        // TODO: we need to get the best score from the storage (NSUserDefault)
+        
+        tryCountBest = UserDefaults.standard.integer(forKey: "besttrycount") as Int
         
         tryCountBestLabel = SKLabelNode(fontNamed: fontName)
         tryCountBestLabel?.text = "Best: \(tryCountBest)"
@@ -357,5 +370,21 @@ class GameScene: SKScene {
         scoreboard.isHidden = false
         tryCountBestLabel.isHidden = false
         tryCountCurrentLabel.isHidden = false
+        
+        if tryCountBest == nil || tryCountBest == 0 {
+            tryCountBestLabel.isHidden = true
+        }
+    }
+    
+    func checkIfGameOver() -> Bool {
+        var gameOver :Bool = true
+        for i :Int in 0 ... cardsStatus.count - 1 {
+            if cardsStatus[i] as Bool == false {
+                gameOver = false
+                break
+            }
+        }
+        
+        return gameOver
     }
 }
