@@ -46,6 +46,9 @@ class GameScene: SKScene {
     
     var tryCountCurrentLabel :SKLabelNode!
     var tryCountBestLabel :SKLabelNode!
+    
+    var DEBUG_MODE_ON : Bool = true
+    var DelayPriorToHidingCards : TimeInterval = 1.5
    
     override func didMove(to view: SKView) {
         setupScenery()
@@ -54,6 +57,10 @@ class GameScene: SKScene {
 
         createScoreboard()
         hideScoreboard()
+        
+        if DEBUG_MODE_ON == true {
+            DelayPriorToHidingCards = 0.15
+        }
     }
     
     
@@ -148,6 +155,7 @@ class GameScene: SKScene {
                 
                 hideMenu()
                 fillCardSequence()
+                resetCardsStatus()
                 createCardboard()
                 gameIsPlaying = true
                 showScoreboard()
@@ -186,7 +194,7 @@ class GameScene: SKScene {
                                             cardBack.run(SKAction.hide())
                                             
                                             // at this point we want to compare the 2 cards for a match
-                                            if selectedCard1Value == selectedCard2Value {
+                                            if selectedCard1Value == selectedCard2Value || DEBUG_MODE_ON == true {
                                                 print("we have a match")
                                                 Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(hideSelectedCards), userInfo: nil, repeats: false)
                                                 
@@ -330,6 +338,13 @@ class GameScene: SKScene {
     
     func setStatusCardFound(cardIndex :Int) {
         cardsStatus[cardIndex] = true
+    }
+    
+    func resetCardsStatus() {
+        cardsStatus.removeAll(keepingCapacity: false)
+        for _ in 0 ... cardsSequence.count - 1 {
+            cardsStatus.append(false)
+        }
     }
     
     func createScoreboard() {
