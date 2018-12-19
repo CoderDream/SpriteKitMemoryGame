@@ -165,6 +165,8 @@ class GameScene: SKScene {
                 resetCardsStatus()
                 createCardboard()
                 gameIsPlaying = true
+                // 修复游戏结束再次进入时未显示记分牌的缺陷                
+                placeScoreboardAboveCards()
                 showScoreboard()
                 hideFinishedFlag()
             } else if node.name == "leaderboard" {
