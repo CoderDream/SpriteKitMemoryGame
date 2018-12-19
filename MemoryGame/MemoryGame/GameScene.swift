@@ -230,13 +230,16 @@ class GameScene: SKScene {
                                                 
                                                 setStatusCardFound(cardIndex: selectedCardIndex1)
                                                 setStatusCardFound(cardIndex: selectedCardIndex2)
-                                                // TODO: play a sound "match sound"
+                                                // 增加赢得比赛音效
+                                                run(soundActionMatch)
                                                 // TODO: we need to find out if all the cards from the board have been matched all
                                                 if checkIfGameOver() == true {
                                                     gameIsPlaying = false
                                                     showMenu()
                                                     // Show a finished flag
                                                     // play a winning sound
+                                                    // 增加赢得比赛音效
+                                                    run(soundActionWin)
                                                     // save the best score
                                                     placeScoreboardBelowPlayButton()
                                                     saveBestTryCount()
@@ -248,7 +251,9 @@ class GameScene: SKScene {
                                             } else {
                                                 print("no match")
                                                 Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(resetSelectedCards), userInfo: nil, repeats: false)
-                                                // TODO: need to increase the attempt count
+                                                // TODO: need to increase the attempt count                                                
+                                                // 增加赢得比赛音效
+                                                run(soundActionNoMatch)
                                                 increaseTryCount()
                                             }
                                         }
